@@ -1,0 +1,170 @@
+/* styles.css
+   Estilos para la calculadora web incluida en index.html
+   Mantener diseños simples y responsivos.
+*/
+
+/* estilos básicos de la página podrían definirse aquí o heredarse */
+
+.webcalc {
+  max-width: 360px;
+  margin: 18px auto;
+  border-radius: 10px;
+  background: #f7f7f9;
+  padding: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.webcalc-screen {
+  height: 56px;
+  background: #222;
+  color: #0f0;
+  font-size: 1.5rem;
+  text-align: right;
+  padding: 10px;
+  border-radius: 6px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.webcalc-keypad {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.wc-btn {
+  padding: 12px 8px;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background: #fff;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.wc-btn:focus {
+  outline: 3px solid #8ab4ff;
+}
+
+.wc-btn-op {
+  background: #f0f6ff;
+}
+
+.wc-btn-equals {
+  background: #4caf50;
+  color: #fff;
+  grid-row: span 2;
+}
+
+.wc-btn-zero {
+  grid-column: span 2;
+}
+
+.wc-btn-clear {
+  background: #ffdddd;
+}
+
+.webcalc-help {
+  margin-top: 10px;
+  font-size: 0.9rem;
+  color: #444;
+}
+
+/* Responsive: pantallas pequeñas */
+@media (max-width: 420px) {
+  .webcalc { padding: 10px; }
+  .webcalc-screen { font-size: 1.2rem; height: 48px; }
+  .wc-btn { padding: 10px 6px; font-size: 0.95rem; }
+}
+
+/* === Estilos para el Generador de Colores === */
+
+.color-generator {
+  max-width: 420px;
+  margin: 18px auto;
+  padding: 16px;
+  background: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  text-align: center;
+}
+
+.cg-color-box {
+  height: 300px;
+  background: #ffffff;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  transition: background-color 0.3s ease-in-out;
+  border: 2px solid #ddd;
+}
+
+.cg-hex-text {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin: 12px 0;
+  font-family: 'Courier New', monospace;
+  color: #333;
+}
+
+.cg-button-group {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+
+.cg-btn {
+  padding: 10px 16px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.2s ease;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+
+.cg-btn-generate {
+  background: #2196F3;
+  color: #fff;
+}
+
+.cg-btn-generate:hover {
+  background: #1976D2;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(33, 150, 243, 0.3);
+}
+
+.cg-btn-copy {
+  background: #FF9800;
+  color: #fff;
+}
+
+.cg-btn-copy:hover {
+  background: #F57C00;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(255, 152, 0, 0.3);
+}
+
+.cg-btn:active {
+  transform: translateY(0);
+}
+
+.cg-btn:focus {
+  outline: 3px solid #8ab4ff;
+}
+
+/* Responsive para móviles */
+@media (max-width: 480px) {
+  .color-generator { padding: 12px; }
+  .cg-color-box { height: 250px; }
+  .cg-btn { padding: 8px 12px; font-size: 0.9rem; }
+}
