@@ -24,7 +24,7 @@ console.log('btnCambiarTexto seleccionado:', btnCambiarTexto);
 // Para que un botón haga algo cuando se le hace click, añadimos un "listener"
 // con `addEventListener('click', función)`. La función se ejecuta al hacer click.
 if (btnCambiarColor) {
-    btnCambiarColor.addEventListener('click', function() {
+    btnCambiarColor.addEventListener('click', function () {
         // Obtener color anterior: preferimos el estilo inline, si no existe usamos el calculado
         var colorAnterior = miCaja.style.backgroundColor || window.getComputedStyle(miCaja).backgroundColor;
         // Mostrar en consola qué acción se va a realizar
@@ -48,7 +48,7 @@ if (btnCambiarColor) {
 // Reto:
 // Haz que el botón 'Cambiar Texto' cambie lo que dice dentro de la caja por "¡Hola DOM!".
 if (btnCambiarTexto) {
-    btnCambiarTexto.addEventListener('click', function() {
+    btnCambiarTexto.addEventListener('click', function () {
         // Mostrar en consola el texto anterior y el nuevo
         console.log('Se hizo click en btnCambiarTexto. Texto anterior:', miCaja.textContent, "-> nuevo: ¡Hola DOM!");
 

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Verificador de Palíndromos</title>
+  <style>
+    body{font-family:Arial, Helvetica, sans-serif; background:#fafafa; color:#111; padding:24px}
+    .card{max-width:640px;margin:18px auto;padding:18px;background:#fff;border-radius:8px;box-shadow:0 6px 18px rgba(0,0,0,0.06)}
+    h1{font-size:22px;margin:0 0 12px}
+    label{display:block;margin-bottom:6px;font-weight:600}
+    input[type="text"], textarea{width:100%;padding:10px;border:1px solid #dcdcdc;border-radius:6px;font-size:14px}
+    .controls{display:flex;gap:8px;margin-top:10px}
+    button{padding:10px 14px;border-radius:6px;border:0;cursor:pointer;font-weight:600}
+    button.primary{background:#1976d2;color:#fff}
+    button.ghost{background:#eee;color:#111}
+    .result{margin-top:14px;padding:12px;border-radius:6px;font-weight:700}
+    .ok{background:#e8f5e9;color:#2e7d32}
+    .bad{background:#ffebee;color:#c62828}
+    .info{background:#e3f2fd;color:#1565c0}
+    .small{font-size:13px;color:#666;margin-top:8px}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Verificador de Palíndromos</h1>
+    <p class="small">Escribe una palabra o frase y comprueba si es palíndromo. La comprobación ignora espacios y mayúsculas.</p>
+
+    <label for="palabra">Texto a validar</label>
+    <textarea id="palabra" rows="3" placeholder="Ej: Anilina, reconocer, A man a plan a canal Panama"></textarea>
+
+    <div class="controls">
+      <button id="btn-validar" class="primary">Validar Palíndromo</button>
+      <button id="btn-limpiar" class="ghost">Limpiar</button>
+    </div>
+
+    <div id="resultado" class="result info" role="status" aria-live="polite">Introduce texto para comprobar</div>
+    <div id="debug" class="small" aria-hidden="true"></div>
+  </div>
+
+  <!-- Script con la lógica esPalindromo (archivo existente) -->
+  <script src="palindromo.js"></script>
+
+  <script>
+    // Manejo de la interfaz para validar palíndromos usando la función esPalindromo definida en palindromo.js
+    document.addEventListener('DOMContentLoaded', function(){
+      var input = document.getElementById('palabra');
+      var btnValidar = document.getElementById('btn-validar');
+      var btnLimpiar = document.getElementById('btn-limpiar');
+      var resultado = document.getElementById('resultado');
+      var debug = document.getElementById('debug');
+
+      // Función auxiliar para normalizar texto (eliminar espacios extra y caracteres no alfanuméricos opcionalmente)
+      function normalizar(text){
+        // Convertir a string y eliminar saltos de línea al inicio/final
+        var t = String(text).trim();
+        return t;
+      }
+
+      // Validación en tiempo real: actualiza resultado mientras el usuario escribe
+      input.addEventListener('input', function(){
+        var txt = normalizar(input.value);
+        if(txt === ''){
+          resultado.textContent = 'Introduce texto para comprobar';
+          resultado.className = 'result info';
+          debug.textContent = '';
+          return;
+        }
+        // Llamada a la función esPalindromo (importada desde palindromo.js)
+        try{
+          var es = esPalindromo(txt);
+          if(es){
+            resultado.textContent = '✅ Es palíndromo';
+            resultado.className = 'result ok';
+          } else {
+            resultado.textContent = '✖ No es palíndromo';
+            resultado.className = 'result bad';
+          }
+          debug.textContent = 'Texto normalizado: ' + txt.replace(/\s+/g,' ');
+        }catch(err){
+          resultado.textContent = 'Error al validar';
+          resultado.className = 'result bad';
+          debug.textContent = String(err);
+        }
+      });
+
+      // Validar al hacer clic en el botón
+      btnValidar.addEventListener('click', function(){
+        var txt = normalizar(input.value);
+        if(txt === ''){
+          resultado.textContent = 'Introduce texto antes de validar';
+          resultado.className = 'result info';
+          return;
+        }
+        try{
+          var es = esPalindromo(txt);
+          if(es){
+            resultado.textContent = '✅ Es palíndromo';
+            resultado.className = 'result ok';
+          } else {
+            resultado.textContent = '✖ No es palíndromo';
+            resultado.className = 'result bad';
+          }
+        }catch(err){
+          resultado.textContent = 'Error al validar';
+          resultado.className = 'result bad';
+          debug.textContent = String(err);
+        }
+      });
+
+      // Limpiar campos
+      btnLimpiar.addEventListener('click', function(){
+        input.value = '';
+        resultado.textContent = 'Introduce texto para comprobar';
+        resultado.className = 'result info';
+        debug.textContent = '';
+        input.focus();
+      });
+    });
+  </script>
+</body>
+</html>

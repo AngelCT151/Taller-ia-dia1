@@ -1,208 +1,287 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Intro al DOM</title>
-    <style>
-        body { font-family: sans-serif; padding: 20px; }
-        .caja {
-            width: 100px;
-            height: 100px;
-            background-color: lightblue;
-            margin: 10px 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-    </style>
-    <!-- Estilos de la calculadora web (se añaden para la sección solicitada) -->
-    <link rel="stylesheet" href="styles.css">
-    <!-- Estilos del reloj digital con alarma -->
-    <link rel="stylesheet" href="reloj-styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Intro al DOM</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+      padding-top: 60px;
+    }
+
+    .caja {
+      width: 100px;
+      height: 100px;
+      background-color: lightblue;
+      margin: 10px 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Estilos del Menú */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: #333;
+      padding: 10px 0;
+      z-index: 1000;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    nav ul li {
+      margin: 0 15px;
+    }
+
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 1.1em;
+    }
+
+    nav ul li a:hover {
+      color: #4CAF50;
+    }
+  </style>
+  <!-- Estilos de la calculadora web (se añaden para la sección solicitada) -->
+  <link rel="stylesheet" href="styles.css">
+  <!-- Estilos del reloj digital con alarma -->
+  <link rel="stylesheet" href="reloj-styles.css">
 </head>
+
 <body>
-    <h1>Manipulando el DOM con JS</h1>
-    
-    <div id="miCaja" class="caja">Caja</div>
-    
-    <button id="btnCambiarColor">Cambiar Color</button>
-    <button id="btnCambiarTexto">Cambiar Texto</button>
+  <nav>
+    <ul>
+      <li><a href="#intro">Inicio</a></li>
+      <li><a href="#webcalc">Calculadora</a></li>
+      <li><a href="#temp-converter">Conversor</a></li>
+      <li><a href="#color-generator">Colores</a></li>
+      <li><a href="#reloj-container">Reloj</a></li>
+      <li><a href="#analizador-container">Analizador</a></li>
+    </ul>
+  </nav>
 
-    <script src="dom.js"></script>
-    
-    <!-- ==================== Calculadora web completa (HTML/CSS/JS) ==================== -->
-    <hr>
-    <h2>Calculadora web (HTML / CSS / JavaScript)</h2>
-    <p>Calculadora visual con soporte por clic y por teclado (teclas numéricas y Numpad). Incluye accesibilidad y comentarios en <code>app.js</code>.</p>
+  <h1 id="intro">Manipulando el DOM con JS</h1>
 
-    <div class="webcalc" id="webcalc" aria-label="Calculadora" role="application">
-        <div class="webcalc-screen" id="wc-screen" aria-live="polite">0</div>
+  <div id="miCaja" class="caja">Caja</div>
 
-        <div class="webcalc-keypad">
-            <!-- filas de botones -->
-            <button class="wc-btn wc-btn-op" data-value="%" aria-label="módulo">%</button>
-            <button class="wc-btn wc-btn-op" data-value="/" aria-label="dividir">÷</button>
-            <button class="wc-btn wc-btn-op" data-value="*" aria-label="multiplicar">×</button>
-            <button class="wc-btn wc-btn-clear" id="wc-clear" aria-label="limpiar">C</button>
+  <button id="btnCambiarColor">Cambiar Color</button>
+  <button id="btnCambiarTexto">Cambiar Texto</button>
 
-            <button class="wc-btn" data-value="7">7</button>
-            <button class="wc-btn" data-value="8">8</button>
-            <button class="wc-btn" data-value="9">9</button>
-            <button class="wc-btn wc-btn-op" data-value="-" aria-label="restar">−</button>
+  <script src="dom.js"></script>
 
-            <button class="wc-btn" data-value="4">4</button>
-            <button class="wc-btn" data-value="5">5</button>
-            <button class="wc-btn" data-value="6">6</button>
-            <button class="wc-btn wc-btn-op" data-value="+" aria-label="sumar">+</button>
+  <!-- ==================== Calculadora web completa (HTML/CSS/JS) ==================== -->
+  <hr>
+  <h2>Calculadora web (HTML / CSS / JavaScript)</h2>
+  <p>Calculadora visual con soporte por clic y por teclado (teclas numéricas y Numpad). Incluye accesibilidad y
+    comentarios en <code>app.js</code>.</p>
 
-            <button class="wc-btn" data-value="1">1</button>
-            <button class="wc-btn" data-value="2">2</button>
-            <button class="wc-btn" data-value="3">3</button>
-            <button class="wc-btn wc-btn-equals" id="wc-equals" aria-label="igual">=</button>
+  <div class="webcalc" id="webcalc" aria-label="Calculadora" role="application">
+    <div class="webcalc-screen" id="wc-screen" aria-live="polite">0</div>
 
-            <button class="wc-btn wc-btn-zero" data-value="0">0</button>
-            <button class="wc-btn" data-value=".">.</button>
-            <button class="wc-btn" data-value="(" aria-label="paréntesis abrir">(</button>
-            <button class="wc-btn" data-value=")" aria-label="paréntesis cerrar">)</button>
-        </div>
+    <div class="webcalc-keypad">
+      <!-- filas de botones -->
+      <button class="wc-btn wc-btn-op" data-value="%" aria-label="módulo">%</button>
+      <button class="wc-btn wc-btn-op" data-value="/" aria-label="dividir">÷</button>
+      <button class="wc-btn wc-btn-op" data-value="*" aria-label="multiplicar">×</button>
+      <button class="wc-btn wc-btn-clear" id="wc-clear" aria-label="limpiar">C</button>
 
-        <div class="webcalc-help">
-            <p>Atajos de teclado soportados: teclas 0-9, punto (.), + - * / %, Enter (calcular), Backspace (borrar último), Esc (limpiar).</p>
-            <p>Soporta tanto teclado alfanumérico como Numpad.</p>
-        </div>
+      <button class="wc-btn" data-value="7">7</button>
+      <button class="wc-btn" data-value="8">8</button>
+      <button class="wc-btn" data-value="9">9</button>
+      <button class="wc-btn wc-btn-op" data-value="-" aria-label="restar">−</button>
+
+      <button class="wc-btn" data-value="4">4</button>
+      <button class="wc-btn" data-value="5">5</button>
+      <button class="wc-btn" data-value="6">6</button>
+      <button class="wc-btn wc-btn-op" data-value="+" aria-label="sumar">+</button>
+
+      <button class="wc-btn" data-value="1">1</button>
+      <button class="wc-btn" data-value="2">2</button>
+      <button class="wc-btn" data-value="3">3</button>
+      <button class="wc-btn wc-btn-equals" id="wc-equals" aria-label="igual">=</button>
+
+      <button class="wc-btn wc-btn-zero" data-value="0">0</button>
+      <button class="wc-btn" data-value=".">.</button>
+      <button class="wc-btn" data-value="(" aria-label="paréntesis abrir">(</button>
+      <button class="wc-btn" data-value=")" aria-label="paréntesis cerrar">)</button>
     </div>
 
-    <!-- Conectar el script que implementa la calculadora web -->
-    <script src="app.js"></script>
+    <div class="webcalc-help">
+      <p>Atajos de teclado soportados: teclas 0-9, punto (.), + - * / %, Enter (calcular), Backspace (borrar último),
+        Esc (limpiar).</p>
+      <p>Soporta tanto teclado alfanumérico como Numpad.</p>
+    </div>
+  </div>
 
-    <!-- Conversor de temperaturas (no borra lo demás) -->
-    <hr>
-    <h2>Conversor de temperaturas (Celsius → Fahrenheit / Kelvin)</h2>
-    <p>Introduce una temperatura en Celsius y pulsa el botón para convertirla.</p>
-    <div id="temp-converter" style="max-width:360px;border:1px solid #e0e0e0;padding:10px;border-radius:6px;">
-        <label for="temp-celsius-input">Celsius (°C):</label>
-        <input id="temp-celsius-input" type="text" value="25" aria-label="Temperatura en Celsius">
-        <div style="margin-top:8px;">
-            <button id="temp-to-f">Convertir a °F</button>
-            <button id="temp-to-k">Convertir a K</button>
-        </div>
-        <div style="margin-top:8px;">Resultado: <span id="temp-result">-</span></div>
+  <!-- Conectar el script que implementa la calculadora web -->
+  <script src="app.js"></script>
+
+  <!-- Conversor de temperaturas (no borra lo demás) -->
+  <hr>
+  <h2>Conversor de temperaturas (Celsius → Fahrenheit / Kelvin)</h2>
+  <p>Introduce una temperatura en Celsius y pulsa el botón para convertirla.</p>
+  <div id="temp-converter" style="max-width:360px;border:1px solid #e0e0e0;padding:10px;border-radius:6px;">
+    <label for="temp-celsius-input">Celsius (°C):</label>
+    <input id="temp-celsius-input" type="text" value="25" aria-label="Temperatura en Celsius">
+    <div style="margin-top:8px;">
+      <button id="temp-to-f">Convertir a °F</button>
+      <button id="temp-to-k">Convertir a K</button>
+    </div>
+    <div style="margin-top:8px;">Resultado: <span id="temp-result">-</span></div>
+  </div>
+
+  <script src="temp.js"></script>
+
+  <!-- Generador de Colores Aleatorios -->
+  <hr>
+  <h2>Generador de Colores Aleatorios</h2>
+  <p>Genera colores hexadecimales aleatorios (#RRGGBB) con un clic.</p>
+
+  <div class="color-generator" id="color-generator">
+    <div class="cg-color-box" id="cg-color-box" aria-label="Caja de color"></div>
+    <p class="cg-hex-text">Código: <span id="cg-hex-display">#000000</span></p>
+    <div class="cg-button-group">
+      <button id="cg-generate-btn" class="cg-btn cg-btn-generate" aria-label="Generar nuevo color">Generar
+        Color</button>
+      <button id="cg-copy-btn" class="cg-btn cg-btn-copy" aria-label="Copiar código de color">Copiar</button>
+    </div>
+  </div>
+
+  <script src="color-gen.js"></script>
+
+  <!-- ==================== Reloj Digital Interactivo con Alarma ==================== -->
+  <hr>
+  <h2>Reloj Digital Interactivo con Alarma</h2>
+  <p>Reloj que se actualiza cada segundo, con opción de configurar una alarma.</p>
+
+  <div id="reloj-container"
+    style="max-width: 500px; margin: 20px auto; padding: 20px; background: #1a1a1a; border-radius: 10px; text-align: center; color: #0f0; font-family: 'Courier New', monospace;">
+    <!-- Saludo según hora -->
+    <div id="saludo" style="font-size: 18px; margin-bottom: 10px; color: #0f0;"></div>
+
+    <!-- Display del reloj (hora) -->
+    <div id="reloj-hora" style="font-size: 48px; font-weight: bold; margin: 10px 0; letter-spacing: 2px;">00:00:00</div>
+
+    <!-- Display de fecha -->
+    <div id="reloj-fecha" style="font-size: 14px; margin: 10px 0; color: #0a0;">01 de Enero de 2025</div>
+
+    <!-- Botón para cambiar formato 24h/12h -->
+    <button id="btn-formato"
+      style="margin: 10px 5px; padding: 6px 10px; background: #0f0; color: #000; border: none; border-radius: 4px; cursor: pointer;">Cambiar
+      a 12h</button>
+
+    <!-- Sección de alarma -->
+    <hr style="border: 1px solid #0f0; margin: 20px 0;">
+    <h3 style="color: #0f0;">Configurar Alarma</h3>
+
+    <div style="margin: 10px 0;">
+      <label for="alarma-hora" style="display: block; margin-bottom: 5px; color: #0f0;">Hora de alarma (HH:MM):</label>
+      <input id="alarma-hora" type="time"
+        style="padding: 8px; font-size: 14px; border-radius: 4px; border: 1px solid #0f0; background: #222; color: #0f0;">
     </div>
 
-    <script src="temp.js"></script>
-
-    <!-- Generador de Colores Aleatorios -->
-    <hr>
-    <h2>Generador de Colores Aleatorios</h2>
-    <p>Genera colores hexadecimales aleatorios (#RRGGBB) con un clic.</p>
-    
-    <div class="color-generator">
-        <div class="cg-color-box" id="cg-color-box" aria-label="Caja de color"></div>
-        <p class="cg-hex-text">Código: <span id="cg-hex-display">#000000</span></p>
-        <div class="cg-button-group">
-            <button id="cg-generate-btn" class="cg-btn cg-btn-generate" aria-label="Generar nuevo color">Generar Color</button>
-            <button id="cg-copy-btn" class="cg-btn cg-btn-copy" aria-label="Copiar código de color">Copiar</button>
-        </div>
+    <div style="margin: 10px 0;">
+      <button id="btn-establecer-alarma"
+        style="margin: 5px; padding: 8px 15px; background: #0f0; color: #000; border: none; border-radius: 4px; cursor: pointer;">Establecer
+        Alarma</button>
+      <button id="btn-cancelar-alarma"
+        style="margin: 5px; padding: 8px 15px; background: #f00; color: #fff; border: none; border-radius: 4px; cursor: pointer;">Cancelar
+        Alarma</button>
     </div>
 
-    <script src="color-gen.js"></script>
+    <!-- Indicador de alarma activa -->
+    <div id="alarma-estado" style="margin: 10px 0; font-size: 14px; color: #ff6; min-height: 20px;"></div>
 
-    <!-- ==================== Reloj Digital Interactivo con Alarma ==================== -->
-    <hr>
-    <h2>Reloj Digital Interactivo con Alarma</h2>
-    <p>Reloj que se actualiza cada segundo, con opción de configurar una alarma.</p>
-
-    <div id="reloj-container" style="max-width: 500px; margin: 20px auto; padding: 20px; background: #1a1a1a; border-radius: 10px; text-align: center; color: #0f0; font-family: 'Courier New', monospace;">
-      <!-- Saludo según hora -->
-      <div id="saludo" style="font-size: 18px; margin-bottom: 10px; color: #0f0;"></div>
-      
-      <!-- Display del reloj (hora) -->
-      <div id="reloj-hora" style="font-size: 48px; font-weight: bold; margin: 10px 0; letter-spacing: 2px;">00:00:00</div>
-      
-      <!-- Display de fecha -->
-      <div id="reloj-fecha" style="font-size: 14px; margin: 10px 0; color: #0a0;">01 de Enero de 2025</div>
-      
-      <!-- Botón para cambiar formato 24h/12h -->
-      <button id="btn-formato" style="margin: 10px 5px; padding: 6px 10px; background: #0f0; color: #000; border: none; border-radius: 4px; cursor: pointer;">Cambiar a 12h</button>
-      
-      <!-- Sección de alarma -->
-      <hr style="border: 1px solid #0f0; margin: 20px 0;">
-      <h3 style="color: #0f0;">Configurar Alarma</h3>
-      
-      <div style="margin: 10px 0;">
-        <label for="alarma-hora" style="display: block; margin-bottom: 5px; color: #0f0;">Hora de alarma (HH:MM):</label>
-        <input id="alarma-hora" type="time" style="padding: 8px; font-size: 14px; border-radius: 4px; border: 1px solid #0f0; background: #222; color: #0f0;">
-      </div>
-      
-      <div style="margin: 10px 0;">
-        <button id="btn-establecer-alarma" style="margin: 5px; padding: 8px 15px; background: #0f0; color: #000; border: none; border-radius: 4px; cursor: pointer;">Establecer Alarma</button>
-        <button id="btn-cancelar-alarma" style="margin: 5px; padding: 8px 15px; background: #f00; color: #fff; border: none; border-radius: 4px; cursor: pointer;">Cancelar Alarma</button>
-      </div>
-      
-      <!-- Indicador de alarma activa -->
-      <div id="alarma-estado" style="margin: 10px 0; font-size: 14px; color: #ff6; min-height: 20px;"></div>
-      
-      <!-- Notificación de alarma sonando -->
-      <div id="alarma-notificacion" style="display: none; margin-top: 15px; padding: 10px; background: #f00; color: #fff; border-radius: 6px; font-size: 16px; animation: parpadear 0.5s infinite;">
-        ¡ ALARMA ACTIVA !
-      </div>
+    <!-- Notificación de alarma sonando -->
+    <div id="alarma-notificacion"
+      style="display: none; margin-top: 15px; padding: 10px; background: #f00; color: #fff; border-radius: 6px; font-size: 16px; animation: parpadear 0.5s infinite;">
+      ¡ ALARMA ACTIVA !
     </div>
+  </div>
 
-    <script src="reloj.js"></script>
+  <script src="reloj.js"></script>
 
-    <!-- ==================== Analizador de Texto en Tiempo Real ==================== -->
-    <hr>
-    <h2>Analizador de Texto en Tiempo Real</h2>
-    <p>Escribe o pega texto para analizar estadísticas: caracteres, palabras, oraciones y tiempo de lectura.</p>
+  <!-- ==================== Analizador de Texto en Tiempo Real ==================== -->
+  <hr>
+  <h2>Analizador de Texto en Tiempo Real</h2>
+  <p>Escribe o pega texto para analizar estadísticas: caracteres, palabras, oraciones y tiempo de lectura.</p>
 
-    <div id="analizador-container" style="max-width: 800px; margin: 20px auto; font-family: Arial, sans-serif;">
-      <!-- Textarea para escribir texto -->
-      <div style="margin-bottom: 15px;">
-        <label for="texto-input" style="display: block; margin-bottom: 8px; font-weight: bold; font-size: 14px;">Escribe o pega tu texto:</label>
-        <textarea
-          id="texto-input"
-          placeholder="Comienza a escribir aquí..."
-          style="width: 100%; height: 150px; padding: 12px; border: 2px solid #ddd; border-radius: 6px; font-size: 14px; font-family: 'Courier New', monospace; resize: vertical;">
+  <div id="analizador-container" style="max-width: 800px; margin: 20px auto; font-family: Arial, sans-serif;">
+    <!-- Textarea para escribir texto -->
+    <div style="margin-bottom: 15px;">
+      <label for="texto-input" style="display: block; margin-bottom: 8px; font-weight: bold; font-size: 14px;">Escribe o
+        pega tu texto:</label>
+      <textarea id="texto-input" placeholder="Comienza a escribir aquí..."
+        style="width: 100%; height: 150px; padding: 12px; border: 2px solid #ddd; border-radius: 6px; font-size: 14px; font-family: 'Courier New', monospace; resize: vertical;">
         </textarea>
+    </div>
+
+    <!-- Sección de estadísticas en tarjetas -->
+    <div id="estadisticas-container"
+      style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 15px;">
+      <div class="stat-card" data-stat="caracteres"
+        style="background: #e3f2fd; border-left: 4px solid #1976d2; padding: 12px; border-radius: 6px; text-align: center;">
+        <div class="stat-label" style="font-size: 12px; color: #555; margin-bottom: 6px;">Caracteres (con espacios)
+        </div>
+        <div class="stat-value" id="stat-caracteres" style="font-size: 24px; font-weight: bold; color: #1976d2;">0</div>
       </div>
 
-      <!-- Sección de estadísticas en tarjetas -->
-      <div id="estadisticas-container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 15px;">
-        <div class="stat-card" data-stat="caracteres" style="background: #e3f2fd; border-left: 4px solid #1976d2; padding: 12px; border-radius: 6px; text-align: center;">
-          <div class="stat-label" style="font-size: 12px; color: #555; margin-bottom: 6px;">Caracteres (con espacios)</div>
-          <div class="stat-value" id="stat-caracteres" style="font-size: 24px; font-weight: bold; color: #1976d2;">0</div>
+      <div class="stat-card" data-stat="caracteres-sin-espacios"
+        style="background: #f3e5f5; border-left: 4px solid #7b1fa2; padding: 12px; border-radius: 6px; text-align: center;">
+        <div class="stat-label" style="font-size: 12px; color: #555; margin-bottom: 6px;">Caracteres (sin espacios)
         </div>
+        <div class="stat-value" id="stat-caracteres-sin-espacios"
+          style="font-size: 24px; font-weight: bold; color: #7b1fa2;">0</div>
+      </div>
 
-        <div class="stat-card" data-stat="caracteres-sin-espacios" style="background: #f3e5f5; border-left: 4px solid #7b1fa2; padding: 12px; border-radius: 6px; text-align: center;">
-          <div class="stat-label" style="font-size: 12px; color: #555; margin-bottom: 6px;">Caracteres (sin espacios)</div>
-          <div class="stat-value" id="stat-caracteres-sin-espacios" style="font-size: 24px; font-weight: bold; color: #7b1fa2;">0</div>
-        </div>
+      <div class="stat-card" data-stat="palabras"
+        style="background: #e8f5e9; border-left: 4px solid #388e3c; padding: 12px; border-radius: 6px; text-align: center;">
+        <div class="stat-label" style="font-size: 12px; color: #555; margin-bottom: 6px;">Palabras</div>
+        <div class="stat-value" id="stat-palabras" style="font-size: 24px; font-weight: bold; color: #388e3c;">0</div>
+      </div>
 
-        <div class="stat-card" data-stat="palabras" style="background: #e8f5e9; border-left: 4px solid #388e3c; padding: 12px; border-radius: 6px; text-align: center;">
-          <div class="stat-label" style="font-size: 12px; color: #555; margin-bottom: 6px;">Palabras</div>
-          <div class="stat-value" id="stat-palabras" style="font-size: 24px; font-weight: bold; color: #388e3c;">0</div>
-        </div>
+      <div class="stat-card" data-stat="oraciones"
+        style="background: #fff3e0; border-left: 4px solid #f57c00; padding: 12px; border-radius: 6px; text-align: center;">
+        <div class="stat-label" style="font-size: 12px; color: #555; margin-bottom: 6px;">Oraciones</div>
+        <div class="stat-value" id="stat-oraciones" style="font-size: 24px; font-weight: bold; color: #f57c00;">0</div>
+      </div>
 
-        <div class="stat-card" data-stat="oraciones" style="background: #fff3e0; border-left: 4px solid #f57c00; padding: 12px; border-radius: 6px; text-align: center;">
-          <div class="stat-label" style="font-size: 12px; color: #555; margin-bottom: 6px;">Oraciones</div>
-          <div class="stat-value" id="stat-oraciones" style="font-size: 24px; font-weight: bold; color: #f57c00;">0</div>
-        </div>
-
-        <div class="stat-card" data-stat="lectura" style="background: #fce4ec; border-left: 4px solid #c2185b; padding: 12px; border-radius: 6px; text-align: center;">
-          <div class="stat-label" style="font-size: 12px; color: #555; margin-bottom: 6px;">Tiempo de lectura</div>
-          <div class="stat-value" id="stat-lectura" style="font-size: 20px; font-weight: bold; color: #c2185b;">< 1 min</div>
+      <div class="stat-card" data-stat="lectura"
+        style="background: #fce4ec; border-left: 4px solid #c2185b; padding: 12px; border-radius: 6px; text-align: center;">
+        <div class="stat-label" style="font-size: 12px; color: #555; margin-bottom: 6px;">Tiempo de lectura</div>
+        <div class="stat-value" id="stat-lectura" style="font-size: 20px; font-weight: bold; color: #c2185b;">
+          < 1 min</div>
         </div>
       </div>
 
       <!-- Botones de acción -->
       <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
-        <button id="btn-limpiar" style="padding: 10px 20px; background: #f44336; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;">Limpiar</button>
-        <button id="btn-copiar-stats" style="padding: 10px 20px; background: #2196f3; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;">Copiar Estadísticas</button>
+        <button id="btn-limpiar"
+          style="padding: 10px 20px; background: #f44336; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;">Limpiar</button>
+        <button id="btn-copiar-stats"
+          style="padding: 10px 20px; background: #2196f3; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;">Copiar
+          Estadísticas</button>
       </div>
 
       <!-- Mensaje de confirmación -->
-      <div id="mensaje-confirmacion" style="margin-top: 10px; text-align: center; color: #388e3c; font-weight: bold; min-height: 20px; display: none;">
+      <div id="mensaje-confirmacion"
+        style="margin-top: 10px; text-align: center; color: #388e3c; font-weight: bold; min-height: 20px; display: none;">
         ✓ Estadísticas copiadas al portapapeles
       </div>
     </div>
@@ -213,5 +292,5 @@
     <script src="analizador.js"></script>
 
 </body>
-</html>
 
+</html>
